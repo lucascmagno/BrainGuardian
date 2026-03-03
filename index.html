@@ -252,45 +252,43 @@
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
-    const overlay = document.getElementById("welcomeOverlay");
-    const popup = document.querySelector(".welcome-popup");
-    const closeBtn = document.getElementById("closeWelcome");
-    const body = document.body;
+  window.onload = function () {
+    var overlay = document.getElementById("welcomeOverlay");
+    var popup = document.querySelector(".welcome-popup");
+    var closeBtn = document.getElementById("closeWelcome");
 
-    function openWelcome() {
-      overlay.classList.add("active");
-      body.classList.add("popup-open");
-      launchConfetti();
+    if (!overlay || !popup || !closeBtn) {
+      console.error("Popup: elementos não encontrados");
+      return;
     }
 
-    function closeWelcome() {
-      overlay.classList.remove("active");
-      body.classList.remove("popup-open");
-      localStorage.setItem("welcomeSeen", "true");
-    }
+    // SEMPRE MOSTRA AO ENTRAR
+    overlay.style.display = "flex";
+    overlay.style.opacity = "1";
+    overlay.style.pointerEvents = "all";
+    document.body.style.overflow = "hidden";
 
-    // MOSTRAR APENAS NA PRIMEIRA VISITA
-    if (!localStorage.getItem("welcomeSeen")) {
-      openWelcome();
-    }
-
-    // Botão "Começar"
-    closeBtn.addEventListener("click", (e) => {
+    // FECHAR AO CLICAR NO BOTÃO
+    closeBtn.onclick = function (e) {
       e.stopPropagation();
-      closeWelcome();
-    });
+      fecharPopup();
+    };
 
-    // Clique fora do card fecha
-    overlay.addEventListener("click", () => {
-      closeWelcome();
-    });
+    // FECHAR AO CLICAR FORA DO CARD
+    overlay.onclick = function () {
+      fecharPopup();
+    };
 
-    // Clique dentro do card NÃO fecha
-    popup.addEventListener("click", (e) => {
+    // NÃO FECHA AO CLICAR DENTRO DO CARD
+    popup.onclick = function (e) {
       e.stopPropagation();
-    });
-  });
+    };
+
+    function fecharPopup() {
+      overlay.style.display = "none";
+      document.body.style.overflow = "";
+    }
+  };
 </script>
 
 <script>
@@ -349,6 +347,5 @@
     launchFireworks();
   });
 </script>
-
 </body>
 </html>
