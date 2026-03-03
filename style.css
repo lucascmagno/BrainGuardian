@@ -179,6 +179,52 @@ footer ul {
   opacity: 0.6;
 }
 
+/* =========================
+   BOTÃO FLUTUANTE DARK / LIGHT
+   ========================= */
+.theme-fab {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--card);
+  color: var(--text);
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+  z-index: 9999;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.theme-fab:hover {
+  transform: scale(1.08);
+}
+
+/* Ajuste no tema escuro */
+html[data-theme="dark"] .theme-fab {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+/* Mobile: botão um pouco menor */
+@media (max-width: 768px) {
+  .theme-fab {
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
+    bottom: 16px;
+    right: 16px;
+  }
+}
+
 /* MOBILE */
 @media (max-width: 768px) {
   .section {
