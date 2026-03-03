@@ -19,6 +19,22 @@
 </head>
 <body>
 
+<!-- WELCOME POPUP -->
+<div id="welcomeOverlay" class="welcome-overlay active">
+  <div class="welcome-popup" data-aos="zoom-in">
+    <h2>🎉 Bem-vindo ao BrainGuardian!</h2>
+    <p>
+      Estamos muito felizes em ter você aqui 💙<br>
+      Este é um espaço criado para te ajudar a ter mais foco,
+      menos distrações e alcançar seus objetivos.
+    </p>
+
+    <button id="closeWelcome" class="btn btn-cta mt-3">
+      Começar 🚀
+    </button>
+  </div>
+</div>
+
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
@@ -56,7 +72,6 @@
       </div>
 
       <div class="col-lg-6 text-center" data-aos="fade-left">
-        <!-- IMAGEM COM FUNDO TRANSPARENTE -->
         <img src="./assets/hero-image-sf.png" alt="BrainGuardian" class="hero-img">
       </div>
     </div>
@@ -104,14 +119,13 @@
         </div>
       </div>
 
-        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-            <div class="feature-card">
-            <img src="./assets/relatorio-evolucao-filho.jpeg" class="img-fluid" alt="">
-            <h5>Relatórios de Progresso</h5>
-            <p>Acompanhe o progresso do seu filho com relatórios detalhados sobre o uso do dispositivo.</p>
-            </div>
+      <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+        <div class="feature-card">
+          <img src="./assets/relatorio-evolucao-filho.jpeg" class="img-fluid" alt="">
+          <h5>Relatórios de Progresso</h5>
+          <p>Acompanhe o progresso do seu filho com relatórios detalhados sobre o uso do dispositivo.</p>
+        </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -123,8 +137,8 @@
 
     <div class="row g-4 mt-4">
       <div class="col-md-4" data-aos="fade-up">
-          <div class="card-custom">
-            <img src="./assets/pessoa.jpeg" class="img-fluid" alt="Depoimento de Lucas" height="200px" width="200px">
+        <div class="card-custom">
+          <img src="./assets/pessoa.jpeg" class="img-fluid" alt="Depoimento de Lucas" height="200px" width="200px">
           <p>“Consigo estudar sem distrações.”</p>
           <span>Lucas, 15 anos</span>
         </div>
@@ -132,8 +146,8 @@
 
       <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
         <div class="card-custom">
-            <img src="./assets/pessoa.jpeg" class="img-fluid" alt="Depoimento de Ana" height="200px" width="200px">
-            <p>“Me ajuda a criar uma rotina saudável.”</p>
+          <img src="./assets/pessoa.jpeg" class="img-fluid" alt="Depoimento de Ana" height="200px" width="200px">
+          <p>“Me ajuda a criar uma rotina saudável.”</p>
           <span>Ana, 16 anos</span>
         </div>
       </div>
@@ -233,6 +247,107 @@
   window.addEventListener("scroll", () => {
     const heroBottom = hero.offsetHeight - 80;
     navbar.classList.toggle("scrolled", window.scrollY > heroBottom);
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("welcomeOverlay");
+    const popup = document.querySelector(".welcome-popup");
+    const closeBtn = document.getElementById("closeWelcome");
+    const body = document.body;
+
+    function openWelcome() {
+      overlay.classList.add("active");
+      body.classList.add("popup-open");
+      launchConfetti();
+    }
+
+    function closeWelcome() {
+      overlay.classList.remove("active");
+      body.classList.remove("popup-open");
+      localStorage.setItem("welcomeSeen", "true");
+    }
+
+    // MOSTRAR APENAS NA PRIMEIRA VISITA
+    if (!localStorage.getItem("welcomeSeen")) {
+      openWelcome();
+    }
+
+    // Botão "Começar"
+    closeBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeWelcome();
+    });
+
+    // Clique fora do card fecha
+    overlay.addEventListener("click", () => {
+      closeWelcome();
+    });
+
+    // Clique dentro do card NÃO fecha
+    popup.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  });
+</script>
+
+<script>
+  function launchFireworks() {
+    const duration = 2200;
+    const end = Date.now() + duration;
+
+    const colors = ["#ffffff", "#93c5fd", "#60a5fa", "#bfdbfe"];
+
+    (function frame() {
+      // Fogo subindo da esquerda
+      confetti({
+        particleCount: 2,
+        angle: 60,
+        spread: 55,
+        startVelocity: 45,
+        gravity: 1.2,
+        ticks: 200,
+        origin: { x: 0, y: 1 },
+        colors: colors
+      });
+
+      // Fogo subindo da direita
+      confetti({
+        particleCount: 2,
+        angle: 120,
+        spread: 55,
+        startVelocity: 45,
+        gravity: 1.2,
+        ticks: 200,
+        origin: { x: 1, y: 1 },
+        colors: colors
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    })();
+
+    // Explosão central (céu)
+    setTimeout(() => {
+      confetti({
+        particleCount: 120,
+        spread: 100,
+        startVelocity: 35,
+        gravity: 0.8,
+        origin: { x: 0.5, y: 0.3 },
+        colors: colors
+      });
+    }, 700);
+  }
+</script>
+
+<script>
+  window.addEventListener("load", () => {
+    launchFireworks();
   });
 </script>
 
